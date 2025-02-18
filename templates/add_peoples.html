@@ -1,0 +1,74 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<br><br>
+{% if current_user.id == admin %}
+    <center><a href="add_peoples2" class="btn btn-primary">По почте</a>
+    <a href="read_chat/{{id}}" class="btn btn-primary">Вернуться</a></center>
+
+
+    <center><h1>Текущие участники</h1></center>
+    {% if flag2 == False %}
+        {% for item in data2 %}
+            <center>
+              <div class="col-md6 border rounded">
+                <h2>{{item.name}}</h2>
+
+                <div>from {{item.form}}</div>
+                <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
+                <div>
+                  {{item.about}}
+                </div>
+                <a href="del/{{id}}/{{item.id}}" class="btn btn-success">Удалить</a>
+                <a href="/check_private/{{item.id}}" class="btn btn-success">Личные сообщения</a>
+              </div>
+            </center>
+        {% endfor %}
+    {% else %}
+    <center>Нет участников</center>
+    {% endif %}
+
+    <center><h1>Добавление участников</h1></center>
+
+    {% if flag1 == False %}
+        <br>
+        <center><h2>По почте</h2></center>
+        <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email(class="form-control", type="email") }}<br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+        </form>
+        <br>
+        <center><h2>или</h2></center>
+        {% for item in data1 %}
+            <center>
+              <div class="col-md6 border rounded">
+                <h2>{{item.name}}</h2>
+
+                <div>from {{item.form}}</div>
+                <img src="/static/profile_photos/{{item.photo}}" width="70" height="70">
+                <div>
+                  {{item.about}}
+                </div>
+                <a href="window/{{id}}/{{item.id}}" class="btn btn-success">Добавить</a>
+              </div>
+            </center>
+        {% endfor %}
+    {% else %}
+    <center>Некого добавлять</center>
+    {% endif %}
+
+{% else %}
+
+{% endif %}
+
+{% endblock %}
